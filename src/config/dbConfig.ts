@@ -1,5 +1,6 @@
 import { Pool } from "pg";
-import { DB_CONFIGS } from "../../shared/constant/constant.ts";
+import { DB_CONFIGS } from "../interface/shared/constant.ts";
+
 
 const pool = new Pool({
     user: DB_CONFIGS.user,

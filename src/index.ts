@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import authRouter from "./interface/auth/authRoutes.ts";
+import authRouter from "./interface/auth/login/authRoutes.ts";
 
 const app = express();
 app.use(express.json());

@@ -4,10 +4,11 @@ interface ResponseOptions {
   data?: unknown;
   error?: string;
   statusCode?: number;
+  message?: string;
 }
 
 export function handleResponse(res: Response, options: ResponseOptions) {
-  const { data, error, statusCode = 200 } = options;
+  const { data, error, statusCode = 200, message } = options;
   if (error) {
     return res.status(statusCode).json({
       success: false,
@@ -18,5 +19,6 @@ export function handleResponse(res: Response, options: ResponseOptions) {
     success: true,
     data,
     statusCode,
+    message,
   });
 }
