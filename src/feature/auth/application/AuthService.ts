@@ -1,12 +1,15 @@
-import type { TCreateUserPayload, UserRepository } from "../../domain/User.ts";
 import jwt from "jsonwebtoken";
-import { compareHashPassword } from "../../interface/shared/utils/compareHashPassword.ts";
-import { JWT_SECRET_KEY, REFRESH_SECRET_KEY } from "../../interface/shared/constant.ts";
-import logger from "../../interface/shared/utils/logger.ts";
 import bcrypt from "bcrypt";
-import { HttpError } from "../../interface/shared/utils/httpError.ts";
-import { SessionRepository } from "../../infrastructure/postgres/repositories/SessionRepository.ts";
-import { RefreshTokenRepository } from "../../infrastructure/postgres/repositories/RefreshTokenRepository.ts";
+
+import type { TCreateUserPayload, UserRepository } from "../domain/User.ts";
+import { SessionRepository } from "../infrastructure/repositories/SessionRepository.ts";
+import { RefreshTokenRepository } from "../infrastructure/repositories/RefreshTokenRepository.ts";
+
+import logger from "../../../shared/utils/logger.ts";
+import { compareHashPassword } from "../../../shared/utils/compareHashPassword.ts";
+import { JWT_SECRET_KEY, REFRESH_SECRET_KEY } from "../../../shared/constant.ts";
+import { HttpError } from "../../../shared/utils/httpError.ts";
+
 export class AuthService {
     private readonly userRepository: UserRepository;
     private readonly sessionRepository: SessionRepository;
@@ -43,8 +46,8 @@ export class AuthService {
 
         logger.info(`Generating access and refresh tokens for user id: ${user.user_id}`);
 
-        const token = jwt.sign({ id: user.user_id, username: user.player_name }, JWT_SECRET_KEY, { expiresIn: "15min" });
-        const refreshToken = jwt.sign({ id: user.user_id, username: user.player_name }, REFRESH_SECRET_KEY, { expiresIn: "30d" });
+        const token = jwt.sign({ id: user.user_id, username: user.player_name, role: user.role || "player" }, JWT_SECRET_KEY, { expiresIn: "15min" });
+        const refreshToken = jwt.sign({ id: user.user_id, username: user.player_name, role: user.role || "player" }, REFRESH_SECRET_KEY, { expiresIn: "30d" });
 
         await this.sessionRepository.createSession(user.user_id, token, userAgent);
         await this.refreshTokenRepository.createRefreshToken(user.user_id, refreshToken);

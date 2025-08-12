@@ -1,12 +1,12 @@
 import type { Pool } from "pg";
-import logger from "../../../interface/shared/utils/logger.ts";
+import logger from "../../../../shared/utils/logger.ts";
 
 export class RefreshTokenRepository {
     private readonly pool: Pool;
 
     constructor(pool: Pool) {
         this.pool = pool;
-    }
+    }   
 
     async createRefreshToken(userId: string, token: string): Promise<void> {
         try {

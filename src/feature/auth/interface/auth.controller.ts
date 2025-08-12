@@ -1,9 +1,9 @@
-import type { Request, Response } from "express";
 
-import logger from "../../shared/utils/logger.ts";
-import { handleResponse } from "../../shared/utils/responseHandler.ts";
-import { AuthService } from "../../../application/auth/AuthService.ts";
-import { HttpError } from "../../shared/utils/httpError.ts";
+import { HttpError } from "../../../shared/utils/httpError.ts";
+import logger from "../../../shared/utils/logger.ts";
+import { handleResponse } from "../../../shared/utils/responseHandler.ts";
+import type { AuthService } from "../application/AuthService.ts";
+import type { Request, Response } from "express";
 
 
 class AuthController {

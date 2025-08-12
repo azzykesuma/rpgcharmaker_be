@@ -1,5 +1,5 @@
 import type { Pool } from "pg";
-import logger from "../../../interface/shared/utils/logger.ts";
+import logger from "../../../../shared/utils/logger.ts";
 
 export class SessionRepository {
     private readonly pool: Pool;

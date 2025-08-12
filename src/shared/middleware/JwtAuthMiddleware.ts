@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET_KEY } from "../shared/constant.ts";
-import type { JWTUser } from "../../domain/User.ts";
+import { JWT_SECRET_KEY } from "../constant.ts";
+import type { JWTUser } from "../../feature/auth/domain/User.ts";
 
 declare global {
   interface Request {
