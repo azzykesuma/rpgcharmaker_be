@@ -3,10 +3,13 @@ import { ElementTypeRepository } from "../infrastructure/repositories/ElementTyp
 import { ElementTypesController } from "../interface/element-types.controller.ts";
 import pool from "../../../config/dbConfig.ts";
 import jwtAuthMiddleware from "../../../shared/middleware/JwtAuthMiddleware.ts";
+import { ElementTypesService } from "../application/elementTypesService.ts";
 
 const elementTypesRouter = express.Router();
+// wiring
 const elementTypeRepository = new ElementTypeRepository(pool);
-const elementTypesController = new ElementTypesController(elementTypeRepository);
+const elementTypesService = new ElementTypesService(elementTypeRepository);
+const elementTypesController = new ElementTypesController(elementTypesService);
 
 elementTypesRouter.get("/", jwtAuthMiddleware, (req, res) => {
     elementTypesController.findAll(req, res);

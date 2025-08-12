@@ -1,21 +1,30 @@
-import type { IElementTypesRepository } from "../domain/ElementTypes.ts";
 import { handleResponse } from "../../../shared/utils/responseHandler.ts";
 import type { Request, Response } from "express";
+import { ElementTypesService } from "../application/elementTypesService.ts";
+import logger from "../../../shared/utils/logger.ts";
 
 export class ElementTypesController {
-    private readonly elementTypesRepository: IElementTypesRepository;
+    private readonly elementTypesService: ElementTypesService;
 
-    constructor(elementTypesRepository: IElementTypesRepository) {
-        this.elementTypesRepository = elementTypesRepository;
+    constructor(elementTypesService: ElementTypesService) {
+        this.elementTypesService = elementTypesService;
     }
 
     async findAll(req: Request, res: Response): Promise<void> {
-        const elementTypes = await this.elementTypesRepository.findAll();
-        handleResponse(res, {
-            data: elementTypes,
-            message: "Element types fetched successfully",
-            statusCode: 200,
-        });
+        logger.info(`[ElementTypesController] Fetching all element types`);
+        try {
+            const elementTypes = await this.elementTypesService.findAll();
+            handleResponse(res, {
+                data: elementTypes,
+                message: "Element types fetched successfully",
+                statusCode: 200,
+            });
+        } catch (error) {
+            handleResponse(res, {
+                error: error instanceof Error ? error.message : "An unexpected error occurred",
+                statusCode: 500,
+            });
+        }
     }
 
     async create(req: Request, res: Response): Promise<void> {
@@ -30,7 +39,7 @@ export class ElementTypesController {
             }
             // search if element types name is already exists
             const elementName = element_types_name.toLowerCase();
-            const existingElementTypes = await this.elementTypesRepository.findByName(elementName);
+            const existingElementTypes = await this.elementTypesService.findByName(elementName);
             if (existingElementTypes) {
                 handleResponse(res, {
                     statusCode: 400,
@@ -38,7 +47,7 @@ export class ElementTypesController {
                 });
                 return;
             }
-            const elementTypes = await this.elementTypesRepository.create({ element_types_name });
+            const elementTypes = await this.elementTypesService.create({ element_types_name });
             handleResponse(res, {
                 data: elementTypes,
                 message: "Element types created successfully",
@@ -61,7 +70,7 @@ export class ElementTypesController {
             });
             return;
         }
-        const elementTypes = await this.elementTypesRepository.findByName(element_types_name);
+        const elementTypes = await this.elementTypesService.findByName(element_types_name);
         handleResponse(res, {
             data: elementTypes,
             message: "Element types fetched successfully",
@@ -72,7 +81,7 @@ export class ElementTypesController {
     async delete(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
-            await this.elementTypesRepository.delete(Number(id));
+            await this.elementTypesService.delete(Number(id));
             handleResponse(res, {
                 message: "Element types deleted successfully",
                 statusCode: 200,

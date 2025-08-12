@@ -13,6 +13,7 @@ export function handleResponse(res: Response, options: ResponseOptions) {
     return res.status(statusCode).json({
       success: false,
       error,
+      statusCode,
     });
   }
   return res.status(statusCode).json({
