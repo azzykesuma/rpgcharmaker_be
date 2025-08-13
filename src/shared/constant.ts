@@ -13,3 +13,10 @@ export const DB_CONFIGS = {
     password: process.env.DB_PASSWORD,
     port: Number(process.env.DB_PORT),
 }
+
+// cloud
+export const CLOUD_STORAGE_CONFIGS = {
+    APIKEY: process.env.CLOUDINARY_API_KEY,
+    SECRET: process.env.CLOUDINARY_API_SECRET,
+    CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+}
