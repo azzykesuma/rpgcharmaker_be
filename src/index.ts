@@ -4,6 +4,7 @@ import authRouter from "./feature/auth/routes/authRoutes.ts";
 import elementTypesRouter from "./feature/elementTypes/routes/elementTypesRoutes.ts";
 import weaponTypesRouter from "./feature/weaponTypes/routes/weaponTypesRouter.ts";
 import weaponRouter from "./feature/weapon/route/weaponRoutes.ts";
+import resistanceRouter from "./feature/resistance/routes/resistanceRoutes.ts";
 
 const app = express();
 app.use(express.json());
@@ -14,5 +15,6 @@ app.use("/api/auth", authRouter);
 app.use("/api/element-types", elementTypesRouter);
 app.use("/api/weapon-types", weaponTypesRouter);
 app.use("/api/weapon", weaponRouter);
+app.use("/api/resistance", resistanceRouter);
 
 export default app;
