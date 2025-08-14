@@ -5,7 +5,7 @@ import { WeaponController } from "../interface/weapon.controller.ts";
 import { WeaponService } from "../application/WeaponService.ts";
 import { WeaponRepository } from "../infrastructure/repositories/weaponRepositories.ts";
 import pool from "../../../config/dbConfig.ts";
-import { CloudStorageService } from "../application/CloudStorageService.ts";
+import { CloudStorageService } from "../../../shared/cloudService/CloudStorageService.ts";
 
 const weaponRouter = Router();
 const upload = multer({ storage: multer.memoryStorage() });

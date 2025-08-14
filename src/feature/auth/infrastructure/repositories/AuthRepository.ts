@@ -1,6 +1,7 @@
 import type { Pool } from "pg";
 import type { TCreateUserPayload, User, UserRepository } from "../../domain/User.ts";
 
+
 export class AuthRepository implements UserRepository {
     private readonly pool: Pool;
 

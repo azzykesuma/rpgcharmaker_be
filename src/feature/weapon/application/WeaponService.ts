@@ -1,6 +1,6 @@
 import { HttpError } from "../../../shared/utils/httpError.ts";
 import type { IWeapon, IWeaponCreate, IWeaponRepository, IWeaponUpdate, IWeaponUpdateImage } from "../domain/Weapon.ts";
-import type { CloudStorageService } from "./CloudStorageService.ts";
+import type { CloudStorageService } from "../../../shared/cloudService/CloudStorageService.ts";
 
 
 export class WeaponService {
@@ -13,7 +13,6 @@ export class WeaponService {
 
     async create(weapon: IWeaponCreate): Promise<IWeapon> {
         try {
-            // check if the name is already taken
             const existingWeapon = await this.weaponRepository.findWeaponByName(weapon.weapon_name);
             if (existingWeapon) {
                 throw new HttpError("Weapon name already taken", 400);

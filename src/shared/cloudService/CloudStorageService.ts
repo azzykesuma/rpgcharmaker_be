@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
-import { CLOUD_STORAGE_CONFIGS } from '../../../shared/constant.ts';
+import { CLOUD_STORAGE_CONFIGS } from '../constant.ts';
 
 export class CloudStorageService {
     constructor() {

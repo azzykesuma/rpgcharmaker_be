@@ -5,7 +5,6 @@ import { handleResponse } from "../../../shared/utils/responseHandler.ts";
 import type { AuthService } from "../application/AuthService.ts";
 import type { Request, Response } from "express";
 
-
 class AuthController {
     private readonly authService: AuthService;
 
