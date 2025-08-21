@@ -60,7 +60,6 @@ export class AuthService {
 
     async logout(token: string) {
         const tokenData = await this.refreshTokenRepository.findRefreshToken(token);
-        console.log(tokenData);
         if (!tokenData) {
             throw new HttpError("Invalid refresh token or session not found", 401);
         }
@@ -93,8 +92,8 @@ export class AuthService {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(player_password, saltRounds);
         payload = { player_name, player_password: hashedPassword };
-
         // check if user already exists
+
         const existingUser = await this.userRepository.findByUsername(player_name);
         if (existingUser) {
             throw new HttpError("User already exists", 400);
