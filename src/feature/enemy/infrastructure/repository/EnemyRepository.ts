@@ -4,7 +4,7 @@ import type {
   IEnemyRepository,
   IEnemyUpdateInfo,
   IEnemyUpdateImage,
-} from "../../domain/Enemy.ts";
+} from "../../domain/Enemy";
 import type { Pool } from "pg";
 
 export class EnemyRepository implements IEnemyRepository {

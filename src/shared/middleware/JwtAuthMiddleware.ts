@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET_KEY } from "../constant.ts";
-import type { JWTUser } from "../../feature/auth/domain/User.ts";
+import { JWT_SECRET_KEY } from "../constant";
+import type { JWTUser } from "../../feature/auth/domain/User";
 
 declare global {
   interface Request {
@@ -12,11 +12,13 @@ declare global {
 const jwtAuthMiddleware = (
   req: Request & { user?: JWTUser },
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Authorization header missing or malformed" });
+    return res
+      .status(401)
+      .json({ message: "Authorization header missing or malformed" });
   }
 
   const token = authHeader.split(" ")[1];

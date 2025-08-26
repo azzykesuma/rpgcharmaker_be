@@ -1,9 +1,9 @@
-import type { Response } from 'express';
+import type { Response } from "express";
 
-interface ResponseOptions {
+export interface ResponseOptions {
   data?: unknown;
   error?: string;
-  statusCode?: number;
+  statusCode?: 200 | 201 | 400 | 404 | 500 | 401;
   message?: string;
 }
 

@@ -1,8 +1,8 @@
-import { HttpError } from "../../../shared/utils/httpError.ts";
-import { handleResponse } from "../../../shared/utils/responseHandler.ts";
+import { HttpError } from "../../../shared/utils/httpError";
+import { handleResponse } from "../../../shared/utils/responseHandler";
 import type { Request, Response } from "express";
-import { WeaponTypeService } from "../application/WeaponTypeService.ts";
-import logger from "../../../shared/utils/logger.ts";
+import { WeaponTypeService } from "../application/WeaponTypeService";
+import logger from "../../../shared/utils/logger";
 
 export class WeaponTypesController {
   private readonly weaponTypesService: WeaponTypeService;
@@ -49,7 +49,7 @@ export class WeaponTypesController {
     try {
       const { weapon_type_name } = req.params;
       const weaponType = await this.weaponTypesService.findByName(
-        weapon_type_name
+        weapon_type_name,
       );
       handleResponse(res, {
         data: weaponType,

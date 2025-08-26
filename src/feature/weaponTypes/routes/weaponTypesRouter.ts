@@ -1,9 +1,9 @@
 import express from "express";
-import jwtAuthMiddleware from "../../../shared/middleware/JwtAuthMiddleware.ts";
-import { WeaponTypesController } from "../interface/weapon-types.controller.ts";
-import { WeaponTypeService } from "../application/WeaponTypeService.ts";
-import { WeaponTypesRepository } from "../infrastructure/repositories/WeaponTypes.ts";
-import pool from "../../../config/dbConfig.ts";
+import jwtAuthMiddleware from "../../../shared/middleware/JwtAuthMiddleware";
+import { WeaponTypesController } from "../interface/weapon-types.controller";
+import { WeaponTypeService } from "../application/WeaponTypeService";
+import { WeaponTypesRepository } from "../infrastructure/repositories/WeaponTypes";
+import pool from "../../../config/dbConfig";
 
 const weaponTypesRouter = express.Router();
 

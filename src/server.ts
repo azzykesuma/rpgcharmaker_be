@@ -1,6 +1,6 @@
-import config from "./config/config.ts";
-import app from "./index.ts";
+import config from "./config/config";
+import app from "./index";
 
 app.listen(config.port, () => {
-    console.log(`Server is running on port ${config.port}`);
+  console.log(`Server is running on port ${config.port}`);
 });

@@ -1,16 +1,16 @@
 import type { Request, Response } from "express";
 
-import logger from "../../../shared/utils/logger.ts";
-import { handleResponse } from "../../../shared/utils/responseHandler.ts";
+import logger from "../../../shared/utils/logger";
+import { handleResponse } from "../../../shared/utils/responseHandler";
 import type {
   IEnemyCreate,
   IEnemyUpdateImage,
   IEnemyUpdateInfo,
-} from "../domain/Enemy.ts";
-import { HttpError } from "../../../shared/utils/httpError.ts";
-import parser from "../../../shared/utils/parser.ts";
+} from "../domain/Enemy";
+import { HttpError } from "../../../shared/utils/httpError";
+import parser from "../../../shared/utils/parser";
 import path from "path";
-import type { EnemyService } from "../application/enemyService.ts";
+import type { EnemyService } from "../application/enemyService";
 
 export class EnemyController {
   private readonly enemyService: EnemyService;
@@ -43,7 +43,7 @@ export class EnemyController {
       const dataUri = (req: Request) =>
         parser.format(
           path.extname(req.file?.originalname || "").toString(),
-          req.file?.buffer || Buffer.from("")
+          req.file?.buffer || Buffer.from(""),
         );
       const imageUrl = dataUri(req);
 
@@ -191,7 +191,7 @@ export class EnemyController {
     try {
       const { id } = req.params;
       const enemy_image = req.file?.buffer;
-      console.log(enemy_image)
+      console.log(enemy_image);
       if (!enemy_image) {
         handleResponse(res, {
           error: "Enemy image is required",
@@ -202,7 +202,7 @@ export class EnemyController {
       const dataUri = (req: Request) =>
         parser.format(
           path.extname(req.file?.originalname || "").toString(),
-          req.file?.buffer || Buffer.from("")
+          req.file?.buffer || Buffer.from(""),
         );
       const imageUrl = dataUri(req);
       if (!imageUrl) {
