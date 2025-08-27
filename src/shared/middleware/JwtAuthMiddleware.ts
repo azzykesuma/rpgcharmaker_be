@@ -16,14 +16,17 @@ const jwtAuthMiddleware = (
 ) => {
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res
-      .status(401)
-      .json({ message: "Authorization header missing or malformed" });
+    return res.status(401).json({
+      message: "Authorization header missing or malformed",
+      statusCode: 401,
+    });
   }
 
   const token = authHeader.split(" ")[1];
   if (!token) {
-    return res.status(401).json({ message: "Token not provided" });
+    return res
+      .status(401)
+      .json({ message: "Token not provided", statusCode: 401 });
   }
 
   try {
@@ -35,7 +38,9 @@ const jwtAuthMiddleware = (
     next();
   } catch (err) {
     console.error(err);
-    return res.status(401).json({ message: "Invalid or expired token" });
+    return res
+      .status(401)
+      .json({ message: "Invalid or expired token", statusCode: 401 });
   }
 };
 

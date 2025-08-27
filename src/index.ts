@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import authRouter from "./feature/auth/routes/authRoutes";
 import elementTypesRouter from "./feature/elementTypes/routes/elementTypesRoutes";
@@ -8,6 +8,9 @@ import resistanceRouter from "./feature/resistance/routes/resistanceRoutes";
 import weaknessRouter from "./feature/weakness/routes/weaknessRouter";
 import enemyRouter from "./feature/enemy/routes/enemyRoutes";
 import masterClassRouter from "./feature/master_class/routes/masterClassRoutes";
+import { HttpError } from "./shared/utils/httpError";
+import logger from "./shared/utils/logger";
+import config from "./config/config";
 
 const app = express();
 app.use(express.json());
@@ -22,5 +25,25 @@ app.use("/api/resistance", resistanceRouter);
 app.use("/api/weakness", weaknessRouter);
 app.use("/api/enemy", enemyRouter);
 app.use("/api/master-class", masterClassRouter);
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  logger.error(err.stack);
+
+  // Default to a 500 status code and a generic message
+  let statusCode = 500;
+  let message = "Internal Server Error";
+
+  // If the error is a custom HttpError, use its status code and message
+  if (err instanceof HttpError) {
+    statusCode = err.statusCode || 500;
+    message = err.message;
+  }
+
+  // Send the final response to the client
+  res.status(statusCode).json({
+    error: message,
+    statusCode,
+  });
+});
 
 export default app;

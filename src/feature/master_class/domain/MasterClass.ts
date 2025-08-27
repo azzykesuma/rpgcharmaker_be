@@ -21,12 +21,21 @@ export interface IMasterClassCreate {
   class_main_stat: string;
 }
 
-export interface BaseResponse {
+export interface BaseResponse<T> {
   message: string;
   statusCode: ResponseOptions["statusCode"];
+  data?: T;
 }
 
+export type NoDataResponse = Omit<BaseResponse<undefined>, "data">;
+
 export interface IMasterClassRepository {
-  createMasterClass(masterClass: IMasterClassCreate): Promise<BaseResponse>;
+  createMasterClass(masterClass: IMasterClassCreate): Promise<boolean>;
   getMasterClassByName(className: string): Promise<IMasterClass>;
+  getMasterClasses(): Promise<IMasterClass[]>;
+  getMasterClassById(id: string): Promise<IMasterClass>;
+  updateMasterClass(
+    payload: IMasterClassCreate & { id: string },
+  ): Promise<boolean>;
+  deleteMasterClass(id: string): Promise<boolean>;
 }
