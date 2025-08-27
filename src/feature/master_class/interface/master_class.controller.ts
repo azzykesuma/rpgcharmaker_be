@@ -79,7 +79,9 @@ export class MasterClassController {
       return;
     }
     const { id } = req.params;
-    const masterClass = await this.masterClassService.getMasterClassById(id);
+    const masterClass = await this.masterClassService.getMasterClassById(
+      Number(id),
+    );
     handleResponse(res, {
       message: "Master class fetched successfully",
       statusCode: 200,
@@ -139,7 +141,9 @@ export class MasterClassController {
       return;
     }
     const { id } = req.params;
-    const isDeleted = await this.masterClassService.deleteMasterClass(id);
+    const isDeleted = await this.masterClassService.deleteMasterClass(
+      Number(id),
+    );
     if (!isDeleted) {
       handleResponse(res, {
         error: "Failed to delete master class",

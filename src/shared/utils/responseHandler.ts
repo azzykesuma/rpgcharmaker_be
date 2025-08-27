@@ -9,6 +9,7 @@ export interface ResponseOptions {
 
 export function handleResponse(res: Response, options: ResponseOptions) {
   const { data, error, statusCode = 200, message } = options;
+  console.log("");
   if (error) {
     return res.status(statusCode).json({
       success: false,

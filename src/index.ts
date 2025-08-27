@@ -10,7 +10,7 @@ import enemyRouter from "./feature/enemy/routes/enemyRoutes";
 import masterClassRouter from "./feature/master_class/routes/masterClassRoutes";
 import { HttpError } from "./shared/utils/httpError";
 import logger from "./shared/utils/logger";
-import config from "./config/config";
+import playerRouter from "./feature/player/routes/playerRoutes";
 
 const app = express();
 app.use(express.json());
@@ -25,6 +25,7 @@ app.use("/api/resistance", resistanceRouter);
 app.use("/api/weakness", weaknessRouter);
 app.use("/api/enemy", enemyRouter);
 app.use("/api/master-class", masterClassRouter);
+app.use("/api/player", playerRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   logger.error(err.stack);

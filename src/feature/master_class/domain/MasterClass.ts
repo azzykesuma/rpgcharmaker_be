@@ -33,9 +33,9 @@ export interface IMasterClassRepository {
   createMasterClass(masterClass: IMasterClassCreate): Promise<boolean>;
   getMasterClassByName(className: string): Promise<IMasterClass>;
   getMasterClasses(): Promise<IMasterClass[]>;
-  getMasterClassById(id: string): Promise<IMasterClass>;
+  getMasterClassById(id: number): Promise<IMasterClass>;
   updateMasterClass(
-    payload: IMasterClassCreate & { id: string },
+    payload: IMasterClassCreate & { id: number },
   ): Promise<boolean>;
-  deleteMasterClass(id: string): Promise<boolean>;
+  deleteMasterClass(id: number): Promise<boolean>;
 }

@@ -33,7 +33,7 @@ export class MasterClassService {
     };
   }
 
-  async getMasterClassById(id: string): Promise<IMasterClass> {
+  async getMasterClassById(id: number): Promise<IMasterClass> {
     const masterClass = await this.masterClassRepository.getMasterClassById(id);
     if (!masterClass) {
       throw new HttpError("Master class not found", 404);
@@ -42,7 +42,7 @@ export class MasterClassService {
   }
 
   async updateMasterClass(
-    payload: IMasterClassCreate & { id: string },
+    payload: IMasterClassCreate & { id: number },
   ): Promise<boolean> {
     const existingMasterClass =
       await this.masterClassRepository.getMasterClassById(payload.id);
@@ -53,7 +53,7 @@ export class MasterClassService {
     return true;
   }
 
-  async deleteMasterClass(id: string): Promise<boolean> {
+  async deleteMasterClass(id: number): Promise<boolean> {
     const existingMasterClass =
       await this.masterClassRepository.getMasterClassById(id);
     if (!existingMasterClass) {

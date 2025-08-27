@@ -64,7 +64,7 @@ export class MasterClassRepository implements IMasterClassRepository {
     return result.rows;
   }
 
-  async getMasterClassById(id: string): Promise<IMasterClass> {
+  async getMasterClassById(id: number): Promise<IMasterClass> {
     const query = `
     SELECT * FROM master_class WHERE class_id = $1
     `;
@@ -77,7 +77,7 @@ export class MasterClassRepository implements IMasterClassRepository {
   }
 
   async updateMasterClass(
-    payload: IMasterClassCreate & { id: string },
+    payload: IMasterClassCreate & { id: number },
   ): Promise<boolean> {
     const { id, ...rest } = payload;
     const query = `
@@ -100,7 +100,7 @@ export class MasterClassRepository implements IMasterClassRepository {
     return true;
   }
 
-  async deleteMasterClass(id: string): Promise<boolean> {
+  async deleteMasterClass(id: number): Promise<boolean> {
     const query = `
     DELETE FROM master_class WHERE class_id = $1
     `;
