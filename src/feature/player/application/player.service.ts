@@ -6,6 +6,7 @@ import {
 import { PlayerRepository } from "../infrastructure/playerRepository";
 import { HttpError } from "../../../shared/utils/httpError";
 import { WeaponRepository } from "@/feature/weapon/infrastructure/repositories/weaponRepositories";
+import logger from "../../../shared/utils/logger";
 
 export class PlayerService {
   private readonly playerRepository: PlayerRepository;
@@ -42,6 +43,9 @@ export class PlayerService {
   }
 
   async getPlayerDetails(playerId: string) {
+    logger.info(
+      `[PlayerService] Getting player details for player id: ${playerId}`,
+    );
     const player = await this.playerRepository.findPlayerById(playerId);
     return player;
   }

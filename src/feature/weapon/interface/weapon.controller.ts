@@ -6,10 +6,10 @@ import type {
   IWeaponUpdate,
   IWeaponUpdateImage,
 } from "../domain/Weapon";
-import parser from "../../../shared/utils/parser";
 import path from "path";
 import logger from "../../../shared/utils/logger";
 import { HttpError } from "../../../shared/utils/httpError";
+import DataURIParser from "datauri/parser";
 
 export class WeaponController {
   private readonly weaponService: WeaponService;
@@ -46,7 +46,7 @@ export class WeaponController {
 
       const weapon_image = req.file?.buffer;
       const dataUri = (req: Request) =>
-        parser.format(
+        new DataURIParser().format(
           path.extname(req.file?.originalname || "").toString(),
           req.file?.buffer || Buffer.from(""),
         );
@@ -159,7 +159,7 @@ export class WeaponController {
       const weapon_id = req.params.id;
       const weapon_image = req.file?.buffer;
       const dataUri = (req: Request) =>
-        parser.format(
+        new DataURIParser().format(
           path.extname(req.file?.originalname || "").toString(),
           req.file?.buffer || Buffer.from(""),
         );

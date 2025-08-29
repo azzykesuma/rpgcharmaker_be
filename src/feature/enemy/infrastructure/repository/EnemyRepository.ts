@@ -16,8 +16,8 @@ export class EnemyRepository implements IEnemyRepository {
   async create(enemy: IEnemyCreate): Promise<IEnemy> {
     try {
       const query = `
-                INSERT INTO enemy (enemy_name, enemy_base_hp, enemy_base_mp, enemy_base_dex, enemy_base_int, enemy_base_constitution, enemy_resistance, enemy_weakness, enemy_image)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                INSERT INTO enemy (enemy_name, enemy_base_hp, enemy_base_mp, enemy_base_dex, enemy_base_int, enemy_base_constitution, enemy_resistance, enemy_weakness, enemy_image, enemy_image_attack, enemy_image_attacked)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
                 RETURNING enemy_id
             `;
       const values = [
@@ -30,6 +30,8 @@ export class EnemyRepository implements IEnemyRepository {
         enemy.enemy_resistance,
         enemy.enemy_weakness,
         enemy.enemy_image,
+        enemy.enemy_image_attack,
+        enemy.enemy_image_attacked,
       ];
       const result = await this.pool.query(query, values);
       return result.rows[0];
@@ -125,12 +127,17 @@ export class EnemyRepository implements IEnemyRepository {
   async updateEnemyImage(enemy: IEnemyUpdateImage): Promise<IEnemy> {
     try {
       const query = `
-        UPDATE enemy
-        SET enemy_image = $1
-        WHERE enemy_id = $2
-        RETURNING enemy_id
+        UPDATE enemy  
+        SET enemy_image = $1, enemy_image_attack = $2, enemy_image_attacked = $3
+        WHERE enemy_id = $4
+        RETURNING *
       `;
-      const values = [enemy.enemy_image, enemy.enemy_id];
+      const values = [
+        enemy.enemy_image,
+        enemy.enemy_image_attack,
+        enemy.enemy_image_attacked,
+        enemy.enemy_id,
+      ];
       const result = await this.pool.query(query, values);
       return result.rows[0];
     } catch (error) {

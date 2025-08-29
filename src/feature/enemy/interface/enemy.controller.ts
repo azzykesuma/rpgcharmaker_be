@@ -8,9 +8,9 @@ import type {
   IEnemyUpdateInfo,
 } from "../domain/Enemy";
 import { HttpError } from "../../../shared/utils/httpError";
-import parser from "../../../shared/utils/parser";
 import path from "path";
 import type { EnemyService } from "../application/enemyService";
+import DataURIParser from "datauri/parser";
 
 export class EnemyController {
   private readonly enemyService: EnemyService;
@@ -32,7 +32,12 @@ export class EnemyController {
         enemy_weakness,
       } = req.body;
 
-      const enemy_image = req.file?.buffer;
+      const files = req.files as {
+        [fieldname: string]: Express.Multer.File[];
+      };
+      const enemy_image = files.enemy_image?.[0];
+      const enemy_image_attack = files.enemy_image_attack?.[0];
+      const enemy_image_attacked = files.enemy_image_attacked?.[0];
       if (!enemy_image) {
         handleResponse(res, {
           error: "Enemy image is required",
@@ -40,12 +45,20 @@ export class EnemyController {
         });
         return;
       }
-      const dataUri = (req: Request) =>
-        parser.format(
-          path.extname(req.file?.originalname || "").toString(),
-          req.file?.buffer || Buffer.from(""),
-        );
-      const imageUrl = dataUri(req);
+      const uriImage = new DataURIParser().format(
+        path.extname(enemy_image.originalname || "").toString(),
+        enemy_image.buffer,
+      );
+
+      const uriImageAttack = new DataURIParser().format(
+        path.extname(enemy_image_attack.originalname || "").toString(),
+        enemy_image_attack.buffer,
+      );
+
+      const uriImageAttacked = new DataURIParser().format(
+        path.extname(enemy_image_attacked.originalname || "").toString(),
+        enemy_image_attacked.buffer,
+      );
 
       if (
         !enemy_name ||
@@ -56,7 +69,9 @@ export class EnemyController {
         !enemy_base_constitution ||
         !enemy_resistance ||
         !enemy_weakness ||
-        !imageUrl
+        !uriImage ||
+        !uriImageAttack ||
+        !uriImageAttacked
       ) {
         handleResponse(res, {
           error:
@@ -75,8 +90,26 @@ export class EnemyController {
         enemy_base_constitution: Number(enemy_base_constitution),
         enemy_resistance: Number(enemy_resistance),
         enemy_weakness: Number(enemy_weakness),
-        enemy_image: String(imageUrl.content),
+        enemy_image: String(uriImage.content),
+        enemy_image_attack: String(uriImageAttack.content),
+        enemy_image_attacked: String(uriImageAttacked.content),
       };
+
+      // In your controller, inside the createEnemy function
+      console.log(
+        "enemy_image_data_uri:",
+        payload.enemy_image.substring(0, 50),
+      );
+      console.log(
+        "enemy_image_attack_data_uri:",
+        payload.enemy_image_attack.substring(0, 50),
+      );
+      console.log(
+        "enemy_image_attacked_data_uri:",
+        payload.enemy_image_attacked.substring(0, 50),
+      );
+
+      console.log("payload", payload);
 
       const enemy = await this.enemyService.createEnemy(payload);
 
@@ -166,6 +199,14 @@ export class EnemyController {
         enemy_resistance: Number(enemy_resistance),
         enemy_weakness: Number(enemy_weakness),
       };
+      const files = req.files as {
+        [fieldname: string]: Express.Multer.File[];
+      };
+      const enemy_image = files.enemy_image?.[0];
+      const uriImage = new DataURIParser().format(
+        path.extname(enemy_image.originalname || "").toString(),
+        enemy_image.buffer,
+      );
       const enemy = await this.enemyService.updateEnemyInfo(payload);
       if (!enemy) {
         handleResponse(res, {
@@ -190,31 +231,37 @@ export class EnemyController {
     logger.info(`EnemyController: Updating enemy image`);
     try {
       const { id } = req.params;
-      const enemy_image = req.file?.buffer;
-      console.log(enemy_image);
-      if (!enemy_image) {
+      const files = req.files as {
+        [fieldname: string]: Express.Multer.File[];
+      };
+      const enemy_image = files.enemy_image?.[0];
+      const enemy_image_attack = files.enemy_image_attack?.[0];
+      const enemy_image_attacked = files.enemy_image_attacked?.[0];
+
+      const uriImage = new DataURIParser().format(
+        path.extname(enemy_image.originalname || "").toString(),
+        enemy_image.buffer,
+      );
+      const uriImageAttack = new DataURIParser().format(
+        path.extname(enemy_image_attack.originalname || "").toString(),
+        enemy_image_attack.buffer,
+      );
+      const uriImageAttacked = new DataURIParser().format(
+        path.extname(enemy_image_attacked.originalname || "").toString(),
+        enemy_image_attacked.buffer,
+      );
+      if (!uriImage || !uriImageAttack || !uriImageAttacked) {
         handleResponse(res, {
-          error: "Enemy image is required",
-          statusCode: 400,
-        });
-        return;
-      }
-      const dataUri = (req: Request) =>
-        parser.format(
-          path.extname(req.file?.originalname || "").toString(),
-          req.file?.buffer || Buffer.from(""),
-        );
-      const imageUrl = dataUri(req);
-      if (!imageUrl) {
-        handleResponse(res, {
-          error: "Enemy image is required",
+          error: "All fields are required",
           statusCode: 400,
         });
         return;
       }
       const payload: IEnemyUpdateImage = {
         enemy_id: id,
-        enemy_image: String(imageUrl.content),
+        enemy_image: String(uriImage.content),
+        enemy_image_attack: String(uriImageAttack.content),
+        enemy_image_attacked: String(uriImageAttacked.content),
       };
       const enemy = await this.enemyService.updateEnemyImage(payload);
       handleResponse(res, {

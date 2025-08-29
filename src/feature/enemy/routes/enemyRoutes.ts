@@ -18,7 +18,11 @@ const enemyController = new EnemyController(enemyService);
 enemyRouter.post(
   "/",
   jwtAuthMiddleware,
-  upload.single("enemy_image"),
+  upload.fields([
+    { name: "enemy_image" },
+    { name: "enemy_image_attack" },
+    { name: "enemy_image_attacked" },
+  ]),
   (req, res) => {
     enemyController.createEnemy(req, res);
   },
@@ -32,9 +36,18 @@ enemyRouter.get("/", jwtAuthMiddleware, (req, res) => {
 enemyRouter.put("/details/:id", jwtAuthMiddleware, (req, res) => {
   enemyController.updateEnemyInfo(req, res);
 });
-enemyRouter.put("/image/:id", jwtAuthMiddleware, (req, res) => {
-  enemyController.updateEnemyImage(req, res);
-});
+enemyRouter.put(
+  "/image/:id",
+  upload.fields([
+    { name: "enemy_image" },
+    { name: "enemy_image_attack" },
+    { name: "enemy_image_attacked" },
+  ]),
+  jwtAuthMiddleware,
+  (req, res) => {
+    enemyController.updateEnemyImage(req, res);
+  },
+);
 enemyRouter.delete("/:id", jwtAuthMiddleware, (req, res) => {
   enemyController.deleteEnemy(req, res);
 });

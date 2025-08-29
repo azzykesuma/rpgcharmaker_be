@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --detectOpenHandles --watchAll",
-    "dev": "nodemon  src/server.ts",
+    "dev": "nodemon --watch src src/server.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

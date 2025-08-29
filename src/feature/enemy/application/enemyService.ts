@@ -22,9 +22,20 @@ export class EnemyService {
     const imageUrl = await this.cloudStorageService.uploadImage(
       enemy.enemy_image,
     );
+    const imageUrlAttack = await this.cloudStorageService.uploadImage(
+      enemy.enemy_image_attack,
+    );
+    const imageUrlAttacked = await this.cloudStorageService.uploadImage(
+      enemy.enemy_image_attacked,
+    );
+    console.log("imageUrl", imageUrl);
+    console.log("imageUrlAttack", imageUrlAttack);
+    console.log("imageUrlAttacked", imageUrlAttacked);
     const payload = {
       ...enemy,
       enemy_image: imageUrl,
+      enemy_image_attack: imageUrlAttack,
+      enemy_image_attacked: imageUrlAttacked,
     } as unknown as IEnemyCreate;
     try {
       return await this.enemyRepository.create(payload);
@@ -51,7 +62,6 @@ export class EnemyService {
   }
 
   async updateEnemyInfo(enemy: IEnemyUpdateInfo): Promise<IEnemy> {
-    console.log(enemy);
     try {
       return await this.enemyRepository.updateEnemyInfo(enemy);
     } catch (error) {
@@ -61,8 +71,23 @@ export class EnemyService {
   }
 
   async updateEnemyImage(enemy: IEnemyUpdateImage): Promise<IEnemy> {
+    const imageUrl = await this.cloudStorageService.uploadImage(
+      enemy.enemy_image,
+    );
+    const imageUrlAttack = await this.cloudStorageService.uploadImage(
+      enemy.enemy_image_attack,
+    );
+    const imageUrlAttacked = await this.cloudStorageService.uploadImage(
+      enemy.enemy_image_attacked,
+    );
+    const payload = {
+      ...enemy,
+      enemy_image: imageUrl,
+      enemy_image_attack: imageUrlAttack,
+      enemy_image_attacked: imageUrlAttacked,
+    } as unknown as IEnemyUpdateImage;
     try {
-      return await this.enemyRepository.updateEnemyImage(enemy);
+      return await this.enemyRepository.updateEnemyImage(payload);
     } catch (error) {
       throw error;
     }

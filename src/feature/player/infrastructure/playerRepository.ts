@@ -52,6 +52,7 @@ export class PlayerRepository implements IPlayerRepository {
     `;
     const values = [playerId];
     const result = await this.pool.query(query, values);
+    logger.info(`[PlayerRepository] Player found: ${result.rows[0]}`);
     return result.rows[0];
   }
 }
