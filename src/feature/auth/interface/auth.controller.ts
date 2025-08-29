@@ -56,7 +56,7 @@ class AuthController {
       });
       handleResponse(res, {
         message: "User registered successfully",
-        statusCode: 201,
+        statusCode: 200,
       });
     } catch (error: unknown) {
       if (error instanceof HttpError) {

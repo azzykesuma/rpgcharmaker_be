@@ -15,7 +15,6 @@ authRouter.post(
 );
 authRouter.post(
   "/refresh-token",
-  jwtAuthMiddleware,
   authController.refreshToken.bind(authController),
 );
 

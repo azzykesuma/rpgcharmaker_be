@@ -80,6 +80,7 @@ export class PlayerController {
     // @ts-ignore
     const playerId = req.user.id;
     const player = await this.playerService.getPlayerDetails(playerId);
+    console.log("player", player);
     if (!player) {
       handleResponse(res, {
         error: "Player not found",

@@ -6,7 +6,8 @@ import {
   IPlayerSelectClassPayload,
   IPlayerSelectWeaponPayload,
 } from "../domain/Player";
-import { User } from "@/feature/auth/domain/User";
+
+import logger from "../../../shared/utils/logger";
 
 export class PlayerRepository implements IPlayerRepository {
   private readonly pool: Pool;
@@ -41,8 +42,9 @@ export class PlayerRepository implements IPlayerRepository {
   }
 
   async findPlayerById(playerId: string): Promise<IPlayerDetails> {
+    logger.info(`[PlayerRepository] Finding player by id: ${playerId}`);
     const query = `
-      SELECT p.player_name, c.class_name, c.class_base_dex, c.class_base_str, c.class_base_int, w.weapon_name, w.weapon_base_damage
+      SELECT p.player_name, c.class_name, c.class_base_hp, c.class_base_mp, c.class_base_dex, c.class_base_str, c.class_base_int, w.weapon_name, w.weapon_base_damage
       FROM player p
       JOIN master_class c ON p.player_class = c.class_id
       JOIN weapon w ON p.player_weapon = w.weapon_id
