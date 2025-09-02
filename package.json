@@ -6,7 +6,9 @@
     "test": "jest --detectOpenHandles --watchAll",
     "dev": "nodemon --watch src src/server.ts",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "build": "tsc",
+    "lint:fix": "eslint . --fix",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
