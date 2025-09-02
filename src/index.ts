@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3001",
+    origin: ["http://localhost:3001", "https://rpgfe.netlify.app"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
