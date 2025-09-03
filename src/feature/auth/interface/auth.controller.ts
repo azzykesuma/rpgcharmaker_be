@@ -28,6 +28,7 @@ class AuthController {
         statusCode: 200,
       });
     } catch (error: unknown) {
+      console.log("ERROR", error);
       if (error instanceof Error) {
         logger.error(`[AuthController] ${error.message}`);
         handleResponse(res, {

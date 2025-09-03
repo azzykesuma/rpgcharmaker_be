@@ -9,4 +9,11 @@ const pool = new Pool({
   port: DB_CONFIGS.port,
 });
 
+console.log("Database Configurations:", {
+  user: DB_CONFIGS.user,
+  host: DB_CONFIGS.host,
+  database: DB_CONFIGS.database,
+  port: DB_CONFIGS.port,
+});
+
 export default pool;
